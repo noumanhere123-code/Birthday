@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Happy Birthday, Barira ❤️</title>
+
+<!-- Google Fonts: Cormorant Garamond for romantic display headlines, Quicksand for soft rounded body text -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ============ PASSWORD LOCK SCREEN ============
+     Sits on top of everything as a full-screen overlay.
+     Scene 1 and the rest of the journey are untouched underneath it. -->
+<div class="lock-screen" id="lockScreen">
+  <div class="lock-bg-heart" aria-hidden="true">✦</div>
+  <div class="lock-bg-heart two" aria-hidden="true">✦</div>
+
+  <div class="lock-inner fade-scale" id="lockInner">
+    <p class="lock-icon">🔐</p>
+    <h1 class="headline small">A little surprise awaits you…</h1>
+    <p class="subline">Only someone special can enter ❤️</p>
+
+    <div class="password-box" id="passwordBox">
+      <input
+        type="password"
+        id="passwordInput"
+        class="password-input"
+        placeholder="Enter Password"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+        aria-label="Enter Password"
+      />
+      <button class="btn btn-primary" id="unlockBtn">Unlock My Surprise 💗</button>
+    </div>
+
+    <p class="lock-error" id="lockError">Hmm… that's not it 🙈 Try again!</p>
+  </div>
+
+  <div class="lock-welcome" id="lockWelcome">
+    <p class="reveal-line big lock-welcome-text" id="lockWelcomeText">Welcome, Barira ❤️</p>
+  </div>
+</div>
+
+<!-- Ambient background layers: shared across every scene -->
+<div class="bg-layer" id="bgHearts" aria-hidden="true"></div>
+<div class="bg-layer" id="bgSparkles" aria-hidden="true"></div>
+
+<!-- Music toggle: persists across all scenes -->
+<button id="musicToggle" class="music-btn" aria-label="Toggle music">🎵</button>
+<audio id="bgMusic" loop preload="none">
+  <!-- Replace Images/music.mp3 with your own song -->
+  <source src="Images/music.mp3" type="audio/mpeg" />
+</audio>
+
+<!-- Progress dots showing where she is in the journey -->
+<div class="journey-dots" id="journeyDots" aria-hidden="true">
+  <span class="dot" data-scene="1"></span>
+  <span class="dot" data-scene="2"></span>
+  <span class="dot" data-scene="3"></span>
+  <span class="dot" data-scene="4"></span>
+  <span class="dot" data-scene="5"></span>
+  <span class="dot" data-scene="6"></span>
+  <span class="dot" data-scene="7"></span>
+</div>
+
+<main id="app">
+
+  <!-- ============ PAGE 1 — WELCOME ============ -->
+  <section class="scene active" id="scene-1" data-scene="1">
+    <div class="scene-inner fade-scale">
+      <p class="eyebrow-heart">❤</p>
+      <h1 class="headline">Happy Birthday,<br><span class="name-script">Barira</span></h1>
+      <p class="subline">Are you excited for what's next? ✨</p>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btnYes">YES 💗</button>
+        <button class="btn btn-ghost" id="btnNo">NO 🙈</button>
+      </div>
+      <p class="tease-text" id="teaseText">Hmm… I don't believe you 😏 Try again!</p>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 2 — THE SPECIAL BOX ============ -->
+  <section class="scene" id="scene-2" data-scene="2">
+    <div class="scene-inner">
+      <p class="scene-kicker" id="box-kicker">Before we continue…</p>
+
+      <div class="gift-wrap" id="giftWrap">
+        <button class="gift-box" id="giftBox" aria-label="Tap to open your gift">
+          <span class="gift-lid"></span>
+          <span class="gift-body"></span>
+          <span class="gift-ribbon-v"></span>
+          <span class="gift-ribbon-h"></span>
+          <span class="gift-bow">🎀</span>
+        </button>
+        <div class="sparkle-ring" aria-hidden="true"></div>
+      </div>
+
+      <p class="tap-hint" id="box-hint">Tap the box 🎁</p>
+
+      <div class="reveal-text" id="box-reveal">
+        <p class="reveal-line big">You are so special to me. ❤️</p>
+        <p class="reveal-line">And this little surprise is just for you. 🫶🏻</p>
+      </div>
+
+      <button class="btn btn-primary continue-btn" id="continue2" data-next="3">Continue →</button>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 3 — BLOW THE CANDLE ============ -->
+  <section class="scene" id="scene-3" data-scene="3">
+    <div class="scene-inner">
+      <p class="scene-kicker">Barira, it's your turn… 🎂</p>
+
+      <!-- Cake: falls back to CSS/emoji build if Images/cake.png is absent -->
+      <div class="cake-wrap" id="cakeWrap">
+        <img src="Images/cake.png" alt="" class="cake-img" id="cakeImg"
+             onload="this.classList.add('loaded')"
+             onerror="this.style.display='none'" />
+        <div class="cake-css" id="cakeCss">
+          <div class="candle">
+            <button class="flame-btn" id="flameBtn" aria-label="Tap to blow out the candle">
+              <span class="flame" id="flame"></span>
+            </button>
+            <span class="wick"></span>
+          </div>
+          <div class="cake-layer cake-top">
+            <span class="frosting"></span>
+          </div>
+          <div class="cake-layer cake-bottom"></div>
+          <div class="cake-plate"></div>
+        </div>
+      </div>
+
+      <p class="tap-hint" id="candle-hint">Tap / blow the candle 🕯️</p>
+      <p class="mic-hint" id="micHint">You can also try blowing into your mic 🎙️</p>
+
+      <div class="wish-text" id="wishText">
+        <p class="reveal-line" id="wishLine1">Close your eyes… ✨</p>
+        <p class="reveal-line" id="wishLine2">Make a wish. 🌙</p>
+        <p class="reveal-line" id="wishLine3">I hope your wish comes true. ❤️</p>
+      </div>
+
+      <button class="btn btn-primary continue-btn" id="continue3" data-next="4">Continue →</button>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 4 — ROSE BOUQUET ============ -->
+  <section class="scene" id="scene-4" data-scene="4">
+    <div class="scene-inner">
+      <p class="scene-kicker">A little something for you… 🌹</p>
+
+      <div class="bouquet-wrap">
+        <!-- Replace Images/bouquet.png with your own photo; CSS/SVG bouquet shows if missing -->
+        <img src="Images/bouquet.png" alt="A bouquet of roses" class="bouquet-img" id="bouquetImg"
+             onload="this.classList.add('loaded')"
+             onerror="this.closest('.bouquet-wrap').classList.add('has-no-bouquet-img')" />
+        <svg id="bouquetSvg" class="bouquet-svg" viewBox="0 0 220 260" aria-hidden="true">
+          <g class="stem">
+            <path d="M110 260 L110 150" stroke="#7a9463" stroke-width="5" fill="none"/>
+            <path d="M110 210 C 95 200, 90 190, 100 178" stroke="#7a9463" stroke-width="4" fill="none"/>
+            <path d="M110 195 C 128 186, 134 176, 126 164" stroke="#7a9463" stroke-width="4" fill="none"/>
+          </g>
+          <g class="rose" transform="translate(60,60)">
+            <circle cx="30" cy="30" r="26" fill="#c23b57"/>
+            <circle cx="30" cy="30" r="18" fill="#e0687f"/>
+            <circle cx="30" cy="30" r="9" fill="#f0a5b4"/>
+          </g>
+          <g class="rose" transform="translate(105,35)">
+            <circle cx="30" cy="30" r="30" fill="#d94f6c"/>
+            <circle cx="30" cy="30" r="20" fill="#ea8398"/>
+            <circle cx="30" cy="30" r="10" fill="#f6c2cc"/>
+          </g>
+          <g class="rose" transform="translate(140,80)">
+            <circle cx="24" cy="24" r="22" fill="#b83450"/>
+            <circle cx="24" cy="24" r="14" fill="#d97088"/>
+            <circle cx="24" cy="24" r="7" fill="#f0b8c4"/>
+          </g>
+          <g class="leaf">
+            <ellipse cx="80" cy="140" rx="18" ry="8" fill="#8aab6f" transform="rotate(-30 80 140)"/>
+            <ellipse cx="150" cy="150" rx="18" ry="8" fill="#8aab6f" transform="rotate(25 150 150)"/>
+          </g>
+        </svg>
+        <div class="sparkle-ring small" aria-hidden="true"></div>
+      </div>
+
+      <button class="btn btn-primary" id="acceptRoses">Accept my roses 🌹</button>
+      <p class="reveal-line" id="rosesReveal">With lots of love, just for you. ❤️</p>
+
+      <button class="btn btn-primary continue-btn" id="continue4" data-next="5">Continue →</button>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 5 — SWEET MOMENTS ============ -->
+  <section class="scene" id="scene-5" data-scene="5">
+    <div class="scene-inner wide">
+      <h2 class="headline small">Our Sweet Moments ❤️</h2>
+      <p class="scene-kicker">Swipe through our memories →</p>
+
+      <div class="carousel" id="carousel">
+        <button class="carousel-arrow left" id="arrowLeft" aria-label="Previous photo">‹</button>
+
+        <div class="carousel-track-wrap">
+          <div class="carousel-track" id="carouselTrack">
+
+            <div class="photo-card">
+              <div class="photo-frame">
+                <img src="Images/photo1.jpg" alt="A favorite memory" onerror="this.parentElement.classList.add('img-missing')">
+              </div>
+            </div>
+
+            <div class="photo-card">
+              <div class="photo-frame">
+                <img src="Images/photo2.jpg" alt="A simple moment" onerror="this.parentElement.classList.add('img-missing')">
+              </div>
+            </div>
+
+            <div class="photo-card">
+              <div class="photo-frame">
+                <img src="Images/photo3.jpg" alt="Close to my heart" onerror="this.parentElement.classList.add('img-missing')">
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <button class="carousel-arrow right" id="arrowRight" aria-label="Next photo">›</button>
+      </div>
+
+      <div class="carousel-dots" id="carouselDots"></div>
+
+      <button class="btn btn-primary continue-btn" id="continue5" data-next="6">Continue →</button>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 6 — MESSAGE FROM MY HEART ============ -->
+  <section class="scene" id="scene-6" data-scene="6">
+    <div class="scene-inner">
+      <h2 class="headline small">A Message From My Heart 💌</h2>
+      <p class="tap-hint" id="envelope-hint">Tap the envelope to open it.</p>
+
+      <button class="envelope" id="envelope" aria-label="Tap to open the letter">
+        <span class="envelope-back"></span>
+        <span class="envelope-flap"></span>
+        <span class="envelope-letter-peek"></span>
+        <span class="envelope-heart">❤</span>
+      </button>
+
+      <div class="letter-wrap" id="letterWrap">
+        <div class="letter-paper" id="letterPaper">
+          <p class="letter-line">Happy Birthday Meri Jaan ❤️</p>
+          <p class="letter-line">Pata nahi ye letter padhte waqt tum kya feel karogi, but aaj main bas dil se kuch kehna chahta hoon. ❤️</p>
+          <p class="letter-line">Tum meri life mein aayi, aur pata hi nahi chala kab tum meri life ka itna important part ban gayi.</p>
+          <p class="letter-line">Tumse baat karna, tumhari smile dekhna, tumhari choti-choti baatein sunna… ye sab mere liye genuinely bohot special hai. 🫶🏻</p>
+          <p class="letter-line">Main shayad har baar apni feelings perfectly express nahi kar pata, aur kabhi kabhi words bhi kam pad jaate hain… but one thing I want you to know is that I really care about you. ❤️</p>
+          <p class="letter-line">Main bas chahta hoon ki tum hamesha khush raho, hamesha smile karti raho, aur apne saare dreams achieve karo. Tumhari life mein jitni bhi beautiful cheezein hain, I hope woh sab tumhe milen. ✨</p>
+          <p class="letter-line">Aaj tumhara birthday hai, but honestly, mere liye bhi ye ek special day hai… because I get to celebrate you. ❤️</p>
+          <p class="letter-line">I hope tumhari life ka ye new year bahut saari happiness, success, peace aur beautiful memories lekar aaye.</p>
+          <p class="letter-line">Aur haan… chahe kuch bhi ho, ek baat hamesha yaad rakhna —</p>
+          <p class="letter-line emphasis">Tum mere liye bohot, bohot special ho. ❤️</p>
+          <p class="letter-line">Happy Birthday once again, meri jaan. 🎂❤️</p>
+          <p class="letter-line">Keep smiling, always… because your smile is one of my favourite things about you. 🥹❤️</p>
+          <p class="letter-signature">— Noman</p>
+        </div>
+      </div>
+
+      <button class="btn btn-primary continue-btn" id="continue6" data-next="7">Continue →</button>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 7 — ONE LAST THING ============ -->
+  <section class="scene dark-scene" id="scene-7" data-scene="7">
+    <div class="scene-inner">
+      <p class="scene-kicker light">One last thing…</p>
+      <p class="tap-hint light" id="final-hint">Tap the gift 🎁</p>
+
+      <div class="gift-wrap" id="giftWrap2">
+        <button class="gift-box shake" id="giftBox2" aria-label="Tap to open your final gift">
+          <span class="gift-lid"></span>
+          <span class="gift-body"></span>
+          <span class="gift-ribbon-v"></span>
+          <span class="gift-ribbon-h"></span>
+          <span class="gift-bow">🎀</span>
+        </button>
+        <div class="sparkle-ring" aria-hidden="true"></div>
+      </div>
+
+      <div class="teddy-reveal" id="teddyReveal">
+        <img src="Images/teddy.png" alt="A teddy bear holding a heart" class="teddy-img" id="teddyImg"
+             onload="this.classList.add('loaded')"
+             onerror="this.closest('.teddy-reveal').classList.add('has-no-teddy-img')" />
+        <div class="teddy-svg" id="teddySvg" aria-hidden="true">🧸<span class="teddy-heart">❤️</span></div>
+
+        <p class="reveal-line big light">Lots of love for you ❤️</p>
+        <p class="reveal-line light">Once again, Happy Birthday Barira! 🎂❤️</p>
+        <p class="reveal-line light">I hope you loved your little surprise. 🥹❤️</p>
+
+        <div class="signature-block">
+          <p class="made-with-love">Made with love, just for you.</p>
+          <p class="signature">— Noman ❤️</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Effects canvas overlays -->
+<div id="confettiLayer" aria-hidden="true"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
